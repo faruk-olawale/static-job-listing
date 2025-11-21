@@ -9,11 +9,18 @@ function App() {
   const [filter, setFilter] = useState([]);
 
   const addFilter = (data) => {
-    setFilter([...filter, data]);
+    if(filter.indexOf(data) < 0){
+        setFilter([...filter, data]);   
+    }
+
+  }
+
+  const clearFilters = () => {
+    setFilter([]);
   }
   return (
     <>
-      <Header filter={filter}/>
+      <Header filter={filter} clearFilters={clearFilters}/>
       <MainBody jobs={jobs} addFilter ={addFilter}/>
     </>
   )

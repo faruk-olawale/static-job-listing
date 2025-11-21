@@ -1,6 +1,6 @@
 
 import closeIcon from "../assets/Img/icon-remove.svg"
-const Header = ({filter}) => {
+const Header = ({filter,clearFilters}) => {
     return(
         <header>
           {
@@ -22,7 +22,7 @@ const Header = ({filter}) => {
              
           </div>
 
-          <button className="clear">Clear</button>
+          <button className="clear" onClick={clearFilters}>Clear</button>
         </section>
           }
     

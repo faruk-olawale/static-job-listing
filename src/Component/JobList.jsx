@@ -47,13 +47,13 @@ const JobList = ({job, addToFilters}) => {
 
         <div>
             <button onClick={() => addToFilters(job.role)}>{job.role}</button>
-            <button>{job.level}</button>
+            <button onClick={() => addToFilters(job.level)}>{job.level}</button>
             {
-                job.languages.map(language => <button>{language}</button>)
+                job.languages.map(language => <button onClick={() => addToFilters(language)}>{language}</button>)
             }
 
             {
-                job.tools.map(tool => <button>{tool}</button>)
+                job.tools.map(tool => <button onClick={() => addToFilters(tool)}>{tool}</button>)
             }
 
 
