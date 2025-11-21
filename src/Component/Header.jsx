@@ -1,31 +1,31 @@
+
 import closeIcon from "../assets/Img/icon-remove.svg"
-const Header = () => {
+const Header = ({filter}) => {
     return(
         <header>
-        <section className="flex">
+          {
+            filter.length > 0 &&
+                <section className="flex">
           <div className="flex">
-             <p className="filter">
-             <span>Frontend</span>
-             <button>
-              <img src={closeIcon} alt="close-icon" />
-             </button>
-             </p>
-             <p className="filter">
-             <span>Frontend</span>
-             <button>
-              <img src={closeIcon} alt="close-icon" />
-             </button>
-             </p>
-             <p className="filter">
-             <span>Frontend</span>
-             <button>
-              <img src={closeIcon} alt="close-icon" />
-             </button>
-             </p>
+            {
+              filter.map(filters =>{
+                return(
+                  <p className="filter">
+                  <span>{filters}</span>
+                  <button>
+                  <img src={closeIcon} alt="close-icon" />
+                  </button>
+                  </p>
+                )
+              })
+            }
+             
           </div>
 
           <button className="clear">Clear</button>
         </section>
+          }
+    
       </header>
     )
 }

@@ -1,11 +1,22 @@
 import JobList from "./JobList"
-const MainBody = () => {
+
+const MainBody = ({jobs, addFilter}) => {
 
     return(
        <main>
-       <JobList/>
-       <JobList/>
-       <JobList/>
+        {
+            jobs.map((job, index) => {
+                return (
+                <JobList 
+                 key={index}
+                 job={job}
+                 addToFilters={addFilter}
+                 />
+                 
+            ) 
+            })
+        }
+
        </main>
     )
 }
