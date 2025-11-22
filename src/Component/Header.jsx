@@ -1,6 +1,6 @@
 
 import closeIcon from "../assets/Img/icon-remove.svg"
-const Header = ({filter,clearFilters}) => {
+const Header = ({filter,clearFilters,removeFilter}) => {
     return(
         <header>
           {
@@ -11,8 +11,8 @@ const Header = ({filter,clearFilters}) => {
               filter.map(filters =>{
                 return(
                   <p className="filter">
-                  <span>{filters}</span>
-                  <button>
+                  <span>{filters.value}</span>
+                  <button onClick={() => removeFilter(filters)}>
                   <img src={closeIcon} alt="close-icon" />
                   </button>
                   </p>
