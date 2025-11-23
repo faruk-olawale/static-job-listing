@@ -7,14 +7,10 @@ import './App.scss'
 function App() {
   const [jobs, setJobs] = useState(jobDate);
   const [filter, setFilter] = useState([]);
+  
+  const filterJobs = (jobs,updatedFilters) => {
 
-  const addFilter = (data) => {
-    const dataExisting = filter.some(filters => filters.type === data.type && filters.value === data.value)
-    if(!dataExisting){
-      const updatedFilters = [...filter, data]
-      setFilter(updatedFilters);
-
-        const filteredJobs = jobs.filter(job => {
+     const filteredJobs = jobs.filter(job => {
           let levelCheck ,roleCheck ,languageCheck, toolCheck = false;
 
           if(updatedFilters.some(filters => filters.type === "level")){
@@ -32,20 +28,26 @@ function App() {
           if(updatedFilters.some(filters => filters.type === "tool")){
             toolCheck = true;
           }
-          return ( 
-            (levelCheck ? job.level === updatedFilters.find(filters => filters.type = "level").value :
-            true) &&
-            (roleCheck ? job.role === updatedFilters.find(filters => filters.type = "role").value :
-            true) &&
-            (toolCheck ? updatedFilters.filter(f => f.type === "tool").every(f => job.tools.indexOf(f.
-             value ) > -1) : true ) &&
-            (languageCheck ? updatedFilters.filter(f => f.type === "language").every(f => job.languages.indexOf(f.
-             value ) > -1) : true )  
+        return ( 
+        (levelCheck ? job.level === updatedFilters.find(filters => filters.type === "level")?.value : true) &&
+        (roleCheck ? job.role === updatedFilters.find(filters => filters.type === "role")?.value : true) &&
+        (toolCheck ? updatedFilters.filter(f => f.type === "tool").every(f => job.tools.includes(f.value)) : true) &&
+        (languageCheck ? updatedFilters.filter(f => f.type === "language").every(f => job.languages.includes(f.value)) : true)
+        )
 
-          )
+
         })   
 
         setJobs(filteredJobs);
+
+  }
+  const addFilter = (data) => {
+    const dataExisting = filter.some(filters => filters.type === data.type && filters.value === data.value)
+    if(!dataExisting){
+      const updatedFilters = [...filter, data]
+      setFilter(updatedFilters);
+
+      filterJobs(jobs, updatedFilters)
 
   }
 }
@@ -53,13 +55,15 @@ function App() {
 
   const clearFilters = () => {
     setFilter([]);
+
     setJobs(jobDate)
   }
   const removeFilter = (filterData) => {
-    const updatedFilters = filter.filters(filterItem => {
+    const updatedFilters = filter.filter(filterItem => {
       return (filterItem.type !== filterData.type && filterItem.value !== filterData.value)
     })
     setFilter(updatedFilters);
+       filterJobs(jobDate, updatedFilters)  
   }
   return (
     <>
