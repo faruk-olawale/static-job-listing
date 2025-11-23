@@ -196,3 +196,46 @@ div.job-details :last-of-type {
         margin-bottom: 10px;
     }
 }
+
+
+.search-wrapper {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.search-container {
+//   background-color: #ffff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 30px 0px #cccccc7e;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  width: 50%;
+  padding: 12px 15px;
+  border: 2px solid hsl(180, 31%, 95%);
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: "League Spartan";
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: hsl(180, 29%, 50%);
+}
+
+.job-count {
+  margin-top: 12px;
+  color: hsl(180, 8%, 52%);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+@media screen and (max-width: 600px) {
+  .search-wrapper {
+    width: 90%;
+  }
+}

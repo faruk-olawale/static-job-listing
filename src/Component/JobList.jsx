@@ -1,65 +1,108 @@
-import PhotoSnapImg from "../assets/Img/photosnap.svg"
+import { useState } from 'react';
 
-import img1 from "../assets/Img/photosnap.svg"
-import img2 from "../assets/Img/manage.svg"
-import img3 from "../assets/Img/account.svg"
-import img4 from "../assets/Img/myhome.svg"
-import img5 from "../assets/Img/loop-studios.svg"
-import img6 from "../assets/Img/faceit.svg"
-import img7 from "../assets/Img/shortly.svg"
-import img8 from "../assets/Img/insure.svg"
-import img9 from "../assets/Img/eyecam-co.svg"
-import img10 from "../assets/Img/the-air-filter-company.svg"
+const JobList = ({ job, addToFilters }) => {
+  const [imageError, setImageError] = useState(false);
 
-const JobList = ({job, addToFilters}) => {
-    const images =[
-        {id: 1, image: img1},
-        {id: 2, image: img2},
-        {id: 3, image: img3},
-        {id: 4, image: img4},
-        {id: 5, image: img5},
-        {id: 6, image: img6},
-        {id: 7, image: img7},
-        {id: 8, image: img8},
-        {id: 9, image: img9},
-        {id: 10, image: img10},
-    ]
+  const getCompanyLogo = () => {
+    if (imageError || !job.company_logo) {
+      return (
+        <div className="logo-placeholder">
+          {job.company?.charAt(0) || 'C'}
+        </div>
+      );
+    }
+    return (
+      <img 
+        src={job.company_logo} 
+        alt={job.company}
+        className="company-logo"
+        onError={() => setImageError(true)}
+      />
+    );
+  };
+
+  const formatSalary = () => {
+    if (job.salary_min && job.salary_max) {
+      return `$${job.salary_min.toLocaleString()} - $${job.salary_max.toLocaleString()}`;
+    }
+    return null;
+  };
+
+  const getTimeAgo = () => {
+    if (!job.epoch) return 'Recently';
+    const now = Math.floor(Date.now() / 1000);
+    const diff = now - job.epoch;
+    const days = Math.floor(diff / (24 * 60 * 60));
     
-    return(
-        <article className="flex">
-        <div className="flex">
-            <img src={images.find(img => img.id === job.id).image} alt={job.company} />
-            <div className="job-details">
-                <div >
-                    <span className="job-company">{job.company}</span>
-                    {job.new && <span className="job-new">New!</span>}
-                    {job.featured && <span className="job-featured">Featured</span>}
-                </div>
-                <p>{job.position}</p>
-                <div>
-                    <span>{job.postedAt}</span>
-                    <span>.</span>
-                    <span>{job.contract}</span>
-                    <span>{job.location}</span>
-                </div>
-            </div>
+    if (days === 0) return 'Today';
+    if (days === 1) return '1d ago';
+    if (days < 7) return `${days}d ago`;
+    
+    const weeks = Math.floor(days / 7);
+    if (weeks < 4) return `${weeks}w ago`;
+    
+    const months = Math.floor(days / 30);
+    return `${months}mo ago`;
+  };
+
+  const isNew = job.epoch ? (Math.floor(Date.now() / 1000) - job.epoch) < (3 * 24 * 60 * 60) : false;
+
+  return (
+    <article className={`job-card ${job.featured ? 'featured-border' : ''}`}>
+      <div className="job-main">
+        {getCompanyLogo()}
+        <div className="job-details">
+          <div className="company-info">
+            <span className="company-name">{job.company}</span>
+            {isNew && <span className="badge badge-new">New!</span>}
+            {job.featured && <span className="badge badge-featured">Featured</span>}
+            {job.verified && <span className="badge badge-verified">✓ Verified</span>}
+          </div>
+          
+          <h2 className="position-title">{job.position}</h2>
+          
+          <div className="job-meta">
+            <span>{getTimeAgo()}</span>
+            {job.location && (
+              <>
+                <span className="separator">•</span>
+                <span>📍 {job.location}</span>
+              </>
+            )}
+            {formatSalary() && (
+              <>
+                <span className="separator">•</span>
+                <span className="salary">💰 {formatSalary()}</span>
+              </>
+            )}
+          </div>
         </div>
+      </div>
 
-        <div>
-            <button onClick={() => addToFilters({type: "role", value:  job.role})}>{job.role}</button>
-            <button onClick={() => addToFilters({type: "level", value:  job.level})}>{job.level}</button>
-            {
-                job.languages.map((language, index) => <button key={index} onClick={() => addToFilters({type: "language", value:  language})}>{language}</button>)
-            }
+      <div className="job-tags">
+        {job.tags && job.tags.slice(0, 10).map((tag, index) => (
+          <button 
+            key={index} 
+            className="tag-btn"
+            onClick={() => addToFilters({ type: 'tag', value: tag })}
+          >
+            {tag}
+          </button>
+        ))}
+        
+        {job.apply_url && (
+          <a 
+            href={job.apply_url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="apply-btn"
+          >
+            Apply Now →
+          </a>
+        )}
+      </div>
+    </article>
+  );
+};
 
-            {
-                job.tools.map((tool, index) => <button key={index} onClick={() => addToFilters({type: "tool", value:  tool})}>{tool}</button>)
-            }
-
-
-        </div>
-       </article>
-    )
-}
-
-export default JobList
+export default JobList;
