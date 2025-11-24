@@ -4,7 +4,7 @@ const Header = ({ filter, clearFilters, removeFilter, searchTerm, onSearch, jobC
   return (
     <>
       <header>
-        {filter.length > 0 && (
+        {/* {filter.length > 0 && (
           <section className="flex">
             <div className="flex">
               {filter.map((filters, index) => (
@@ -18,23 +18,24 @@ const Header = ({ filter, clearFilters, removeFilter, searchTerm, onSearch, jobC
             </div>
             <button className="clear" onClick={clearFilters}>Clear</button>
           </section>
-        )}
+        )} */}
       </header>
       
-      {/* <div className="search-wrapper">
+      <div className="search-wrapper">
         <div className="search-container">
           <input
             type="text"
             placeholder="Search jobs by title, company, or keyword..."
             value={searchTerm}
             onChange={onSearch}
+            name="search-input"
             className="search-input"
           />
           <div className="job-count">
             {loading ? 'Loading...' : `${jobCount} jobs found`}
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 };
