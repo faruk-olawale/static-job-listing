@@ -4,7 +4,7 @@ const Header = ({ filter, clearFilters, removeFilter, searchTerm, onSearch, jobC
   return (
     <>
       <header>
-        {/* {filter.length > 0 && (
+        {filter.length > 0 && (
           <section className="flex">
             <div className="flex">
               {filter.map((filters, index) => (
@@ -18,7 +18,7 @@ const Header = ({ filter, clearFilters, removeFilter, searchTerm, onSearch, jobC
             </div>
             <button className="clear" onClick={clearFilters}>Clear</button>
           </section>
-        )} */}
+        )}
       </header>
       
       <div className="search-wrapper">
