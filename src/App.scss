@@ -157,6 +157,13 @@ div.job-details :last-of-type {
     }
 }
 
+.position-title{
+    cursor: pointer;
+}
+.position-title:hover{
+    color: hsl(180, 29%, 50%);
+}
+
 @media screen and (max-width: 600px) {
     header{
         background-image: url("./assets/Img/bg-header-mobile.svg");
